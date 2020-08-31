@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "BullCowGame",
+			"Path": "D:\\Documents\\repos\\Games\\UE4\\UnrealCourse\\Bull-Cow-Game\\BullCowGame-starter-kit\\Source\\BullCowGame.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "BullCowGameEditor",
+			"Path": "D:\\Documents\\repos\\Games\\UE4\\UnrealCourse\\Bull-Cow-Game\\BullCowGame-starter-kit\\Source\\BullCowGameEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
