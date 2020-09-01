@@ -1,2 +1,0 @@
-D:\Documents\repos\Games\UE4\UnrealCourse\Bull-Cow-Game\BullCowGame-starter-kit\Intermediate\Build\Win64\UE4Editor\Development\BullCowGame\Definitions.BullCowGame.h
-D:\Documents\repos\Games\UE4\UnrealCourse\Bull-Cow-Game\BullCowGame-starter-kit\Source\BullCowGame\BullCowGame.h
