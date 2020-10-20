@@ -17,9 +17,9 @@ public:
 
 	virtual void OnInput(const FString& Input) override;
 
+	UPROPERTY(EditAnywhere, Category = "Lives")
+		int32 Lives = 3;
+
 	UPROPERTY(EditAnywhere, Category = "Isogram")
 		FString HiddenWord = "Simple";
-	
-private:
-	
 };

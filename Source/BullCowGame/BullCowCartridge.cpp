@@ -10,14 +10,30 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
-    // Guess the isogram
-    if (HiddenWord == Input)
+    // Check player input
+    if (Input != TEXT(""))
     {
-        PrintLine(TEXT("You Win!"));
+            // Guess the isogram
+            if (HiddenWord == Input)
+            {
+                PrintLine(TEXT("You Win!"));
+            }
+            else
+            {
+                PrintLine(TEXT("Try Again"));
+                ClearScreen();
+                Lives--;
+
+                // Checking the number of lives
+                if (Lives <= 0)
+                {
+                    PrintLine(TEXT("You Lose"));
+                };
+            };
     }
     else
     {
-        PrintLine(TEXT("Your Lose!"));
+        ClearScreen();
     };
 }
 
