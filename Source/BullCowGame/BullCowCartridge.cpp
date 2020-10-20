@@ -4,36 +4,44 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-    PrintLine(TEXT("Welcome tto BullCowGame, Player."));
-    PrintLine(TEXT("How many cows are in this place"));
+
+    // Number of characters of the hidden word
+    FString CharNum;
+    CharNum.AppendInt(HiddenWord.Len());
+    
+    // Presentation phrase
+    FString Phrase = TEXT("Guess the " + CharNum + " characters word (isogram)");
+    
+    // Little welcome to player
+    PrintLine(TEXT("Welcome to BullCowGame"));
+    PrintLine(Phrase);
+    PrintLine(TEXT("Press enter to continue..."));
+
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
+    ClearScreen();
+
     // Check player input
     if (Input != TEXT(""))
     {
-            // Guess the isogram
-            if (HiddenWord == Input)
+        if (Input != HiddenWord)
+        {
+            if (Lives <= 0)
             {
-                PrintLine(TEXT("You Win!"));
+                PrintLine(TEXT("You Lose!"));
             }
             else
             {
                 PrintLine(TEXT("Try Again"));
-                ClearScreen();
                 Lives--;
-
-                // Checking the number of lives
-                if (Lives <= 0)
-                {
-                    PrintLine(TEXT("You Lose"));
-                };
             };
+        }
+        else
+        {
+            PrintLine("You Win!");
+        };  
     }
-    else
-    {
-        ClearScreen();
-    };
 }
 
