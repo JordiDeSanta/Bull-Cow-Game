@@ -17,7 +17,8 @@ public:
 
 	virtual void OnInput(const FString& Input) override;
 
-	
+	UPROPERTY(EditAnywhere, Category = "Isogram")
+		FString HiddenWord = "Simple";
 	
 private:
 	
