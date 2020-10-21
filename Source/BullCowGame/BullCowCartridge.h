@@ -22,4 +22,11 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Isogram")
 		FString HiddenWord = "Simple";
+
+private:
+	bool bCorrectCharNum(FString Word);
+
+	FString CharNum;
+
+	int32 WordChars;
 };
