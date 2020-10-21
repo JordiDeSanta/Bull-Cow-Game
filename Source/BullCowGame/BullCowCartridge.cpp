@@ -1,23 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
+#include "Containers/UnrealString.h"
 
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
-    // Number of characters of the hidden word
-    WordChars = HiddenWord.Len();
-    CharNum.AppendInt(WordChars);
-
-    
-    // Presentation phrase
-    FString Phrase = TEXT("Guess the " + CharNum + " characters word (isogram)");
-    
-    // Little welcome to player
-    PrintLine(TEXT("Welcome to BullCowGame"));
-    PrintLine(Phrase);
-    PrintLine(TEXT("Press enter to continue..."));
-
+    StartGame();
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
@@ -71,13 +60,30 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     return;
 }
 
+void UBullCowCartridge::StartGame()
+{
+    // Setup important variables
+    int32 RandomNum = FMath::RandRange(0, HiddenWords.Num() - 1);
+    HiddenWord = HiddenWords[RandomNum];
+    Lives = DLives;
+
+    // Number of characters of the hidden word
+    WordChars = HiddenWord.Len();
+    
+    // Little welcome to player
+    PrintLine(TEXT("Welcome to BullCowGame"));
+    PrintLine(FString::Printf(TEXT("Guess the %i"), WordChars));
+    PrintLine(TEXT("Press enter to continue..."));
+
+    return;
+}
+
 bool UBullCowCartridge::bCorrectCharNum(FString Word)
 {
     // Check number of characters
     if (WordChars != Word.Len())
     {
-        FString Phrase = TEXT("" + CharNum + " characters please!");
-        PrintLine(Phrase);
+        PrintLine(FString::Printf(TEXT("%i characters please!"), WordChars));
         return false;
     };
 

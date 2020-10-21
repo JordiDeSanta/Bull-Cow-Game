@@ -18,15 +18,22 @@ public:
 	virtual void OnInput(const FString& Input) override;
 
 	UPROPERTY(EditAnywhere, Category = "Lives")
-		int32 Lives = 3;
+		int32 Lives;
 
-	UPROPERTY(EditAnywhere, Category = "Isogram")
-		FString HiddenWord = "Simple";
+	UPROPERTY(EditAnywhere, Category = "Dictionary")
+		TArray<FString> HiddenWords;
 
 private:
+
+	void StartGame();
+
 	bool bCorrectCharNum(FString Word);
 
 	FString CharNum;
 
 	int32 WordChars;
+
+	int32 DLives = 3;
+
+	FString HiddenWord;
 };
