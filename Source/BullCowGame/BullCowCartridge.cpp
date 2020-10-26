@@ -46,7 +46,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
         if (Input != HiddenWord)
         {
             // Live check and deprecation
-            if (Lives <= 0)
+            if (Lives <= 1)
             {
                 PrintLine(TEXT("You Lose!"));
                 bFinished = true;
@@ -80,12 +80,12 @@ void UBullCowCartridge::StartGame()
 
     // Number of characters of the hidden word and lives
     WordChars = HiddenWord.Len();
-    Lives = WordChars - 1;
+    Lives = WordChars;
     
     // Little welcome to player
     PrintLine(TEXT("Welcome to BullCowGame"));
     PrintLine(FString::Printf(TEXT("Guess the %i characters word"), WordChars));
-    PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives + 1));
+    PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives));
     PrintLine(TEXT("Press enter to continue..."));
 
     return;
