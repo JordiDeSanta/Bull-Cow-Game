@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
 #include "Containers/UnrealString.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
@@ -13,6 +14,13 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 {
     ClearScreen();
 
+    // Check if you lose or win
+    if (bFinished)
+    {
+        PlayAgain(Input);
+    };
+
+    // Check characters in the word
     if (!bCorrectCharNum(Input))
     {
         return;
@@ -32,7 +40,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
         };
     };
 
-    // Check player input
+    // Check if is the correct word
     if (Input != TEXT(""))
     {
         if (Input != HiddenWord)
@@ -41,6 +49,8 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
             if (Lives <= 0)
             {
                 PrintLine(TEXT("You Lose!"));
+                bFinished = true;
+                PrintLine(TEXT("Want to play again? y/n"));
                 return;
             }
             else
@@ -53,6 +63,8 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
         else
         {
             PrintLine("You Win!");
+            bFinished = true;
+            PrintLine(TEXT("Want to play again? y/n"));
             return;
         };
     };
@@ -74,6 +86,25 @@ void UBullCowCartridge::StartGame()
     PrintLine(TEXT("Welcome to BullCowGame"));
     PrintLine(FString::Printf(TEXT("Guess the %i"), WordChars));
     PrintLine(TEXT("Press enter to continue..."));
+
+    return;
+}
+
+void UBullCowCartridge::PlayAgain(FString Answer)
+{
+    if (Answer == "y")
+    {
+        // Play again
+        bFinished = false;
+        StartGame();
+    }
+    else if (Answer == "n")
+    {
+        // Quit game
+        auto Player = GetWorld()->GetFirstLocalPlayerFromController();
+        auto Controller = GetWorld()->GetFirstPlayerController();
+        UKismetSystemLibrary::QuitGame(Player, Controller, EQuitPreference::Quit, true);
+    }
 
     return;
 }

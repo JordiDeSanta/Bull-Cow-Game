@@ -18,22 +18,28 @@ public:
 	virtual void OnInput(const FString& Input) override;
 
 	UPROPERTY(EditAnywhere, Category = "Lives")
-		int32 Lives;
+		int32 DLives = 2;
 
 	UPROPERTY(EditAnywhere, Category = "Dictionary")
 		TArray<FString> HiddenWords;
+
+	
 
 private:
 
 	void StartGame();
 
+	void PlayAgain(FString Answer);
+
 	bool bCorrectCharNum(FString Word);
 
 	FString CharNum;
 
+	int32 Lives;
+
 	int32 WordChars;
 
-	int32 DLives = 3;
+	bool bFinished = false;
 
 	FString HiddenWord;
 };
