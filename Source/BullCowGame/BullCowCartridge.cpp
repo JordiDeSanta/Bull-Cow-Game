@@ -43,33 +43,38 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     // Check if is the correct word
     if (Input != TEXT(""))
     {
-        if (Input != HiddenWord)
-        {
-            // Live check and deprecation
-            if (Lives <= 1)
-            {
-                PrintLine(TEXT("You Lose!"));
-                bFinished = true;
-                PrintLine(TEXT("Want to play again? y/n"));
-                return;
-            }
-            else
-            {
-                PrintLine(TEXT("Try Again"));
-                Lives--;
-                return;
-            };
-        }
-        else
-        {
-            PrintLine("You Win!");
-            bFinished = true;
-            PrintLine(TEXT("Want to play again? y/n"));
-            return;
-        };
+        ProcessGuess(Input);
     };
 
     return;
+}
+
+void UBullCowCartridge::ProcessGuess(const FString Word)
+{
+    if (Word != HiddenWord)
+    {
+        // Live check and deprecation
+        if (Lives <= 1)
+        {
+            PrintLine(TEXT("You Lose!"));
+            bFinished = true;
+            PrintLine(TEXT("Want to play again? y/n"));
+            return;
+        }
+        else
+        {
+            PrintLine(TEXT("Try Again"));
+            Lives--;
+            return;
+        };
+    }
+    else
+    {
+        PrintLine("You Win!");
+        bFinished = true;
+        PrintLine(TEXT("Want to play again? y/n"));
+        return;
+    };
 }
 
 void UBullCowCartridge::StartGame()

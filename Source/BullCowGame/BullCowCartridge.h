@@ -17,6 +17,8 @@ public:
 
 	virtual void OnInput(const FString& Input) override;
 
+	void ProcessGuess(const FString Word);
+
 	UPROPERTY(EditAnywhere, Category = "Dictionary")
 		TArray<FString> HiddenWords;
 
