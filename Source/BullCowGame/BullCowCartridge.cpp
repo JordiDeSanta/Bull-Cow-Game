@@ -77,14 +77,15 @@ void UBullCowCartridge::StartGame()
     // Setup important variables
     int32 RandomNum = FMath::RandRange(0, HiddenWords.Num() - 1);
     HiddenWord = HiddenWords[RandomNum];
-    Lives = DLives;
 
-    // Number of characters of the hidden word
+    // Number of characters of the hidden word and lives
     WordChars = HiddenWord.Len();
+    Lives = WordChars - 1;
     
     // Little welcome to player
     PrintLine(TEXT("Welcome to BullCowGame"));
-    PrintLine(FString::Printf(TEXT("Guess the %i"), WordChars));
+    PrintLine(FString::Printf(TEXT("Guess the %i characters word"), WordChars));
+    PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives + 1));
     PrintLine(TEXT("Press enter to continue..."));
 
     return;
