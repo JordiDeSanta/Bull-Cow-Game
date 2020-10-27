@@ -31,27 +31,17 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 
 void UBullCowCartridge::ProcessGuess(const FString Word)
 {
-
     // Check characters in the word
     if (!bCorrectCharNum(Word))
     {
         return;
     };
 
-    /*
-    for (int32 i = 0; i < WordChars; i++)
+    // Check isogram
+    if (!bCheckIsogram(Word))
     {
-        for (int32 j = 0; j < WordChars - i - 1; j++)
-        {
-            int32 h = i + j + 1;
-            if (HiddenWord[i] == HiddenWord[h])
-            {
-                PrintLine("An isogram please!");
-                return;
-            };
-        };
+        return;
     };
-    */
 
     // Try statement
     if (Word != HiddenWord && Lives <= 1)
@@ -130,6 +120,24 @@ bool UBullCowCartridge::bCorrectCharNum(FString Word)
     };
 
     return true;
+}
+
+bool UBullCowCartridge::bCheckIsogram(const FString WordToCheck)
+{
+    for (int32 i = 0; i < WordChars; i++)
+    {
+        for (int32 j = 0; j < WordChars - i - 1; j++)
+        {
+            int32 h = i + j + 1;
+            if (WordToCheck[i] == WordToCheck[h])
+            {
+                PrintLine("An isogram please!");
+                return false; // Isn´t an isogram
+            };
+        };
+    };
+
+    return true; // Is an isogram
 }
 
 

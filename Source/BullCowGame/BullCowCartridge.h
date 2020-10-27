@@ -19,6 +19,8 @@ public:
 
 	void ProcessGuess(const FString Word);
 
+	bool bCheckIsogram(const FString WordToCheck);
+
 	UPROPERTY(EditAnywhere, Category = "Dictionary")
 		TArray<FString> HiddenWords;
 
