@@ -14,30 +14,10 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 {
     ClearScreen();
 
-    // Check if you lose or win
+    // Check if you won or lost
     if (bFinished)
     {
         PlayAgain(Input);
-    };
-
-    // Check characters in the word
-    if (!bCorrectCharNum(Input))
-    {
-        return;
-    };
-
-    // Check if the word is an isogram
-    for (int32 i = 0; i < WordChars; i++)
-    {
-        for (int32 j = 0; j < WordChars - i - 1; j++)
-        {
-            int32 h = i + j + 1;
-            if (HiddenWord[i] == HiddenWord[h])
-            {
-                PrintLine("An isogram please!");
-                return;
-            };
-        };
     };
 
     // Check if is the correct word
@@ -51,27 +31,52 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 
 void UBullCowCartridge::ProcessGuess(const FString Word)
 {
+
+    // Check characters in the word
+    if (!bCorrectCharNum(Word))
+    {
+        return;
+    };
+
+    /*
+    for (int32 i = 0; i < WordChars; i++)
+    {
+        for (int32 j = 0; j < WordChars - i - 1; j++)
+        {
+            int32 h = i + j + 1;
+            if (HiddenWord[i] == HiddenWord[h])
+            {
+                PrintLine("An isogram please!");
+                return;
+            };
+        };
+    };
+    */
+
+    // Try statement
+    if (Word != HiddenWord && Lives <= 1)
+    {
+        PrintLine(TEXT("You Lose!"));
+        bFinished = true; // Game finished (Lose)
+        PrintLine(TEXT("Want to play again? y/n"));
+        return;
+    };
+
+    // Lose statement
     if (Word != HiddenWord)
     {
-        // Live check and deprecation
-        if (Lives <= 1)
-        {
-            PrintLine(TEXT("You Lose!"));
-            bFinished = true;
-            PrintLine(TEXT("Want to play again? y/n"));
-            return;
-        }
-        else
-        {
-            PrintLine(TEXT("Try Again"));
-            Lives--;
-            return;
-        };
-    }
-    else
+        PrintLine(TEXT("Try Again"));
+        Lives--; // Decrease lives
+        PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives));
+        PrintLine(FString::Printf(TEXT("The word have %i characters of length"), WordChars));
+        return;
+    };
+    
+    // Win statement
+    if (Word == HiddenWord)
     {
         PrintLine("You Win!");
-        bFinished = true;
+        bFinished = true; // Game finished (Win)
         PrintLine(TEXT("Want to play again? y/n"));
         return;
     };
