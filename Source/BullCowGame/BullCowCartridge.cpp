@@ -12,6 +12,8 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
+    Bulls = 0;
+    Cows = 0;
     ClearScreen();
 
     // Check if you won or lost
@@ -59,6 +61,7 @@ void UBullCowCartridge::ProcessGuess(const FString Word)
         Lives--; // Decrease lives
         PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives));
         PrintLine(FString::Printf(TEXT("The word have %i characters of length"), WordChars));
+        BullsAndCows(Word);
         return;
     };
     
@@ -72,42 +75,22 @@ void UBullCowCartridge::ProcessGuess(const FString Word)
     };
 }
 
-void UBullCowCartridge::StartGame()
+void UBullCowCartridge::BullsAndCows(const FString InputBCG)
 {
-    // Setup important variables
-    int32 RandomNum = FMath::RandRange(0, HiddenWords.Num() - 1);
-    HiddenWord = HiddenWords[RandomNum];
-
-    // Number of characters of the hidden word and lives
-    WordChars = HiddenWord.Len();
-    Lives = WordChars;
-    
-    // Little welcome to player
-    PrintLine(TEXT("Welcome to BullCowGame"));
-    PrintLine(FString::Printf(TEXT("Guess the %i characters word"), WordChars));
-    PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives));
-    PrintLine(TEXT("Press enter to continue..."));
-
-    return;
-}
-
-void UBullCowCartridge::PlayAgain(FString Answer)
-{
-    if (Answer == "y")
+    for (int32 i = 0; i < WordChars; i++)
     {
-        // Play again
-        bFinished = false;
-        StartGame();
-    }
-    else if (Answer == "n")
-    {
-        // Quit game
-        auto Player = GetWorld()->GetFirstLocalPlayerFromController();
-        auto Controller = GetWorld()->GetFirstPlayerController();
-        UKismetSystemLibrary::QuitGame(Player, Controller, EQuitPreference::Quit, true);
+        if (InputBCG[i] == HiddenWord[i])
+        {
+            Bulls++;
+        }
+        else
+        {
+            Cows++;
+        }
     }
 
-    return;
+    // Print quantity of bulls & cows in the input
+    PrintLine(FString::Printf(TEXT("Bulls: %i, Cows: %i"), Bulls, Cows));
 }
 
 bool UBullCowCartridge::bCorrectCharNum(FString Word)
@@ -138,6 +121,45 @@ bool UBullCowCartridge::bCheckIsogram(const FString WordToCheck)
     };
 
     return true; // Is an isogram
+}
+
+void UBullCowCartridge::StartGame()
+{
+    // Setup important variables
+    int32 RandomNum = FMath::RandRange(0, HiddenWords.Num() - 1);
+    HiddenWord = HiddenWords[RandomNum];
+
+    // Number of characters of the hidden word and lives
+    WordChars = HiddenWord.Len();
+    Lives = WordChars;
+
+    // Little welcome to player
+    PrintLine(TEXT("Welcome to BullCowGame"));
+    PrintLine(TEXT("Bulls are the number of correct letters in your guess and Cows wrong letters"));
+    PrintLine(FString::Printf(TEXT("Guess the %i characters word"), WordChars));
+    PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives));
+    PrintLine(TEXT("Press enter to continue..."));
+
+    return;
+}
+
+void UBullCowCartridge::PlayAgain(FString Answer)
+{
+    if (Answer == "y")
+    {
+        // Play again
+        bFinished = false;
+        StartGame();
+    }
+    else if (Answer == "n")
+    {
+        // Quit game
+        auto Player = GetWorld()->GetFirstLocalPlayerFromController();
+        auto Controller = GetWorld()->GetFirstPlayerController();
+        UKismetSystemLibrary::QuitGame(Player, Controller, EQuitPreference::Quit, true);
+    }
+
+    return;
 }
 
 

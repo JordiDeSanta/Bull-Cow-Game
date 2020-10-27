@@ -17,6 +17,8 @@ public:
 
 	virtual void OnInput(const FString& Input) override;
 
+	void BullsAndCows(const FString InputBCG);
+
 	void ProcessGuess(const FString Word);
 
 	bool bCheckIsogram(const FString WordToCheck);
@@ -39,4 +41,8 @@ private:
 	int32 WordChars;
 	bool bFinished = false;
 	FString HiddenWord;
+
+	// Bulls & Cows
+	int32 Bulls;
+	int32 Cows;
 };
