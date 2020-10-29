@@ -1,4 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+
 #include "BullCowCartridge.h"
 #include "Containers/UnrealString.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -6,7 +7,6 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-
     StartGame();
 }
 
@@ -70,6 +70,7 @@ void UBullCowCartridge::ProcessGuess(const FString Word)
     {
         PrintLine("You Win!");
         bFinished = true; // Game finished (Win)
+        HiddenWords.RemoveSingle(HiddenWord); // Remove from the dictionary to no repeat
         PrintLine(TEXT("Want to play again? y/n"));
         return;
     };
