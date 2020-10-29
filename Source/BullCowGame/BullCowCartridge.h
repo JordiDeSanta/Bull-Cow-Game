@@ -21,7 +21,9 @@ public:
 
 	void ProcessGuess(const FString Word);
 
-	bool bCheckIsogram(const FString WordToCheck);
+	bool bCheckIsogram(const FString& WordToCheck) const;
+
+	TArray<FString> FilterForIsograms(const TArray<FString> WordList) const;
 
 	TArray<FString> HiddenWords =
 	{
@@ -1026,6 +1028,8 @@ public:
 	TEXT("your"),
 	TEXT("yourself")
 	};
+
+	TArray<FString> ValidHiddenWords;
 
 private:
 

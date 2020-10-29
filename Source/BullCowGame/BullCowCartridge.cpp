@@ -7,6 +7,7 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
+    ValidHiddenWords = FilterForIsograms(HiddenWords);
     StartGame();
 }
 
@@ -70,7 +71,7 @@ void UBullCowCartridge::ProcessGuess(const FString Word)
     {
         PrintLine("You Win!");
         bFinished = true; // Game finished (Win)
-        HiddenWords.RemoveSingle(HiddenWord); // Remove from the dictionary to no repeat
+        ValidHiddenWords.RemoveSingle(HiddenWord); // Remove from the dictionary to no repeat
         PrintLine(TEXT("Want to play again? y/n"));
         return;
     };
@@ -106,7 +107,7 @@ bool UBullCowCartridge::bCorrectCharNum(FString Word)
     return true;
 }
 
-bool UBullCowCartridge::bCheckIsogram(const FString WordToCheck)
+bool UBullCowCartridge::bCheckIsogram(const FString& WordToCheck) const
 {
     for (int32 i = 0; i < WordChars; i++)
     {
@@ -127,8 +128,8 @@ bool UBullCowCartridge::bCheckIsogram(const FString WordToCheck)
 void UBullCowCartridge::StartGame()
 {
     // Setup important variables
-    int32 RandomNum = FMath::RandRange(0, HiddenWords.Num() - 1);
-    HiddenWord = HiddenWords[RandomNum];
+    int32 RandomNum = FMath::RandRange(0, ValidHiddenWords.Num() - 1);
+    HiddenWord = ValidHiddenWords[RandomNum];
 
     // Number of characters of the hidden word and lives
     WordChars = HiddenWord.Len();
@@ -136,6 +137,7 @@ void UBullCowCartridge::StartGame()
 
     // Little welcome to player
     PrintLine(TEXT("Welcome to BullCowGame"));
+    PrintLine(TEXT("Number of isograms: %i."), ValidHiddenWords.Num());
     PrintLine(TEXT("Bulls are the number of correct letters in your guess and Cows wrong letters"));
     PrintLine(FString::Printf(TEXT("Guess the %i characters word"), WordChars));
     PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives));
@@ -161,6 +163,21 @@ void UBullCowCartridge::PlayAgain(FString Answer)
     }
 
     return;
+}
+
+TArray<FString> UBullCowCartridge::FilterForIsograms(const TArray<FString> WordList) const
+{
+    TArray<FString> Checked;
+
+    for (FString Word : WordList)
+    {
+        if (Word.Len() >= 4 && Word.Len() <= 8 && bCheckIsogram(Word))
+        {
+            Checked.Emplace(Word);
+        }
+    };
+
+    return Checked;
 }
 
 
