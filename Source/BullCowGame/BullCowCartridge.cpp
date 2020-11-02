@@ -11,7 +11,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     StartGame();
 }
 
-void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
+void UBullCowCartridge::OnInput(const FString& PlayerInput) // When the player hits enter
 {
     Bulls = 0;
     Cows = 0;
@@ -20,19 +20,19 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     // Check if you won or lost
     if (bFinished)
     {
-        PlayAgain(Input);
+        PlayAgain(PlayerInput);
     };
 
     // Check if is the correct word
-    if (Input != TEXT(""))
+    if (PlayerInput != TEXT(""))
     {
-        ProcessGuess(Input);
+        ProcessGuess(PlayerInput);
     };
 
     return;
 }
 
-void UBullCowCartridge::ProcessGuess(const FString Word)
+void UBullCowCartridge::ProcessGuess(const FString& Word)
 {
     // Check characters in the word
     if (!bCorrectCharNum(Word))
@@ -141,6 +141,7 @@ void UBullCowCartridge::StartGame()
     PrintLine(TEXT("Bulls are the number of correct letters in your guess and Cows wrong letters"));
     PrintLine(FString::Printf(TEXT("Guess the %i characters word"), WordChars));
     PrintLine(FString::Printf(TEXT("You have %i opportunities"), Lives));
+   // PrintLine(FString::Printf(TEXT("Hw: %s"), HiddenWord)); // Delete
     PrintLine(TEXT("Press enter to continue..."));
 
     return;
@@ -165,19 +166,18 @@ void UBullCowCartridge::PlayAgain(FString Answer)
     return;
 }
 
-TArray<FString> UBullCowCartridge::FilterForIsograms(const TArray<FString> WordList) const
+TArray<FString> UBullCowCartridge::FilterForIsograms(const TArray<FString>& WordList) const
 {
-    TArray<FString> Checked;
+    TArray<FString> ValidWords;
 
     for (FString Word : WordList)
     {
         if (Word.Len() >= 4 && Word.Len() <= 8 && bCheckIsogram(Word))
         {
-            Checked.Emplace(Word);
+            ValidWords.Emplace(Word);
         }
-    };
-
-    return Checked;
+    }
+    return ValidWords;
 }
 
 

@@ -15,15 +15,15 @@ public:
 
 	virtual void BeginPlay() override;
 
-	virtual void OnInput(const FString& Input) override;
+	virtual void OnInput(const FString& PlayerInput) override;
 
 	void BullsAndCows(const FString InputBCG);
 
-	void ProcessGuess(const FString Word);
+	void ProcessGuess(const FString& Word);
 
 	bool bCheckIsogram(const FString& WordToCheck) const;
 
-	TArray<FString> FilterForIsograms(const TArray<FString> WordList) const;
+	TArray<FString> FilterForIsograms(const TArray<FString>& WordList) const;
 
 	TArray<FString> HiddenWords =
 	{
@@ -1031,6 +1031,9 @@ public:
 
 	TArray<FString> ValidHiddenWords;
 
+	UPROPERTY(VisibleAnywhere, Category = "Game")
+	FString HiddenWord;
+
 private:
 
 	// Game Loop
@@ -1043,7 +1046,6 @@ private:
 	int32 Lives;
 	int32 WordChars;
 	bool bFinished = false;
-	FString HiddenWord;
 
 	// Bulls & Cows
 	int32 Bulls;
