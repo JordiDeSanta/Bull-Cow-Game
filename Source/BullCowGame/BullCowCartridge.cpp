@@ -133,7 +133,7 @@ void UBullCowCartridge::StartGame()
 
     // Number of characters of the hidden word and lives
     WordChars = HiddenWord.Len();
-    Lives = WordChars;
+    Lives = WordChars * 2;
 
     // Little welcome to player
     PrintLine(TEXT("Welcome to BullCowGame"));
